@@ -1,0 +1,9 @@
+eclipse.preferences.version=1
+environment/project/com.android.toolchain.gcc.171634622/CWD/delimiter=;
+environment/project/com.android.toolchain.gcc.171634622/CWD/operation=replace
+environment/project/com.android.toolchain.gcc.171634622/CWD/value=E\:\\VP9\\Github\\vp9-tv_android_v3\\Vp9Tivi\\
+environment/project/com.android.toolchain.gcc.171634622/PWD/delimiter=;
+environment/project/com.android.toolchain.gcc.171634622/PWD/operation=replace
+environment/project/com.android.toolchain.gcc.171634622/PWD/value=E\:\\VP9\\Github\\vp9-tv_android_v3\\Vp9Tivi\\
+environment/project/com.android.toolchain.gcc.171634622/append=true
+environment/project/com.android.toolchain.gcc.171634622/appendContributed=true

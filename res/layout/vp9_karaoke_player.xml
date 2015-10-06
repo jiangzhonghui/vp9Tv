@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:vp9view="http://schemas.android.com/apk/res/com.vp9.tv"
+    android:id="@+id/vp9_player_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="fill" >
+
+    <RelativeLayout
+        android:id="@+id/karaoke_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp" >
+        
+    <SurfaceView
+        android:id="@+id/video_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:visibility="visible" />
+
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:id="@+id/webview_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp" 
+       >
+        
+    <org.apache.cordova.CordovaWebView
+        android:id="@+id/cordova_web_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" 
+        android:visibility="visible"
+      	android:background="@android:color/transparent"
+        />   
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,6 @@
+diff a/jni/vp9_proxy.cpp b/jni/vp9_proxy.cpp	(rejected hunks)
+@@ -48,3 +48,3 @@
+ #define MAX_OF_TS_LINK 30
+-#define PROXY_VERSION "11032015 15:25" // last update
++#define PROXY_VERSION "07052015 15:25" // last update
+ 

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:vp9view="http://schemas.android.com/apk/res/com.vp9.tv">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <com.vp9.view.MagicTextView
+            android:id="@+id/tv1"
+            style="@style/AudioFileInfoOverlayText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="80px"
+            android:text=""
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            vp9view:strokeColor="#000000"
+            vp9view:strokeWidth="2dp" />
+
+        <com.vp9.view.MagicTextView
+            android:id="@+id/tv2"
+            style="@style/AudioFileInfoOverlayText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            vp9view:strokeColor="#000000"
+            vp9view:strokeWidth="2dp" />
+
+        <com.vp9.view.MagicTextView
+            android:id="@+id/tv3"
+            style="@style/AudioFileInfoOverlayText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#FF0000"
+            android:textStyle="bold"
+            vp9view:strokeColor="#000000"
+            vp9view:strokeWidth="2dp" />
+
+        <com.vp9.view.MagicTextView
+            android:id="@+id/tv4"
+            style="@style/AudioFileInfoOverlayText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            vp9view:strokeColor="#000000"
+            vp9view:strokeWidth="2dp" />
+
+        <com.vp9.view.MagicTextView
+            android:id="@+id/tv5"
+            style="@style/AudioFileInfoOverlayText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            vp9view:strokeColor="#000000"
+            vp9view:strokeWidth="2dp" />
+    </LinearLayout>
+
+</FrameLayout>
