@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,6 +50,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -85,6 +87,8 @@ import com.vp9.player.subtitles.SubtitleInfo;
 import com.vp9.player.subtitles.Utilities;
 import com.vp9.player.vp9Interface.Vp9ActivityInterface;
 import com.vp9.player.vp9Interface.Vp9PlayerInterface;
+import com.vp9.plugin.EventPlayerPlugin;
+import com.vp9.plugin.HandlerEventPlugin;
 import com.vp9.tv.R;
 import com.vp9.tv.VpMainActivity;
 import com.vp9.util.Config;
@@ -401,6 +405,8 @@ public class MediaController {
 	public boolean isResume;
 
 	// public Boolean isBundle = Boolean.valueOf(false);
+	
+	public boolean isClickSetting = Boolean.valueOf(false);
 
 	public boolean isError = Boolean.valueOf(false);
 
@@ -786,7 +792,7 @@ public class MediaController {
 	// }
 
 	public boolean startNaviteVideo(final JSONObject jsonVideoInfo) {
-
+		
 		reset();
 		if (clearParam) {
 			return false;
@@ -2865,16 +2871,7 @@ public class MediaController {
 
 			
 		case Vp9KeyEvent.KEYCODE_DPAD_DOWN:
-			if (popupVideoWindow != null && popupVideoWindow.isShowing()) {
-//				menuItemAdapter.serverTimeInfo = null;
-				popupVideoWindow.dismiss();
-			}
-			
-			if (is3D && popupVideoWindow2 != null && popupVideoWindow2.isShowing()) {
-//				menuItemAdapter2.serverTimeInfo = null;
-				popupVideoWindow2.dismiss();
-			}
-			
+
 			if (settingPopup != null && settingPopup.isShowing()) {
 				popupVideoWindow.dismiss();
 			}
@@ -2925,8 +2922,14 @@ public class MediaController {
 					@Override
 					public void run() {
 						int currentPosition = vp9Player.getCurrentPosition();
-						if (currentPosition > 5000) {
-							vp9Player.seekTo(currentPosition - 5000);
+						if(videoType == 0){
+							if (currentPosition > 5000) {
+								vp9Player.seekTo(currentPosition - 5000);
+							}
+						} else {
+							if (currentPosition > 60000) {
+								vp9Player.seekTo(currentPosition - 60000);
+							}
 						}
 					}
 				});
@@ -2986,8 +2989,14 @@ public class MediaController {
 						@Override
 						public void run() {
 							int currentPosition = vp9Player.getCurrentPosition();
-							if (currentPosition > 5000) {
-								vp9Player.seekTo(currentPosition + 5000);
+							if (videoType == 0){
+								if (currentPosition > 5000) {
+									vp9Player.seekTo(currentPosition + 5000);
+								}
+							} else {
+								if (currentPosition > 5000) {
+									vp9Player.seekTo(currentPosition + 60000);
+								}
 							}
 						}
 					});
@@ -3013,7 +3022,9 @@ public class MediaController {
 		case Vp9KeyEvent.KEYCODE_UNKNOWN:
 		case Vp9KeyEvent.KEYCODE_F4:
 		case Vp9KeyEvent.KEYCODE_F12:
-			showPopupMenu(btnSub);
+			if (!isClickSetting) {
+				showPopupMenu(btnSub);
+			}
 //			showPopupMenu(btnSub2);
 			isSucess = true;
 			break;
@@ -3554,9 +3565,7 @@ public class MediaController {
 		int duration = vp9Player.getDuration();
 		String channelId = this.channelId;
 		JSONArray jsonArrSub = new JSONArray();
-		if (settingPopup != null) {
 
-		}
 
 		if (subInfoArr != null && settingPopup != null && checkboxSubtitle != null) {
 			// Menu menu = popupMenu.getMenu();
@@ -4733,6 +4742,7 @@ public class MediaController {
 	}
 
 	public void reset() {
+		isClickSetting = false;
 		isPlay = false;
 		isError = false;
 		currentError = 0l;
@@ -4869,13 +4879,16 @@ public class MediaController {
 				if(activity == null){
 					return;
 				}
+				
 				boolean isDisplay = false;
 				Log.d(TAG, "createSettingPopup");
 				LayoutInflater systemService = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				LinearLayout layoutOfPopup = (LinearLayout) systemService.inflate(R.layout.settings, null);
 				final float scale = activity.getResources().getDisplayMetrics().density;
+				
 				settingPopup = new PopupWindow();
 				settingPopup.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.WHITE));
+				
 				
 //				LinearLayout layoutProxySpeed = (LinearLayout) layoutOfPopup.findViewById(R.id.layoutProxySpeed);
 				TextView tvProxySpeed = (TextView) layoutOfPopup.findViewById(R.id.tvProxySpeed);
@@ -4887,13 +4900,13 @@ public class MediaController {
 						addComponentForProxySpeedLayout(tvProxySpeed);
 						isDisplay = true;
 					}
-				}else{
+				}/*else{
 //					setVisibility(tvProxySpeed, View.GONE);
 					if(videoType == 2 || videoType == 3){
 						addComponentDownloadOfflineChannel(videoType, tvDowloadChannel);
 						isDisplay = true;
 					}
-				}
+				}*/
 				
 				LinearLayout layoutSubtitle = (LinearLayout) layoutOfPopup.findViewById(R.id.layoutSubtitle);
 				setVisibility(layoutSubtitle, View.VISIBLE);
@@ -5132,7 +5145,7 @@ public class MediaController {
 
 	}
 
-	protected void addComponentDownloadOfflineChannel(int videoType, final TextView tvDowloadChannel) {
+/*	protected void addComponentDownloadOfflineChannel(int videoType, final TextView tvDowloadChannel) {
 		setVisibility(tvDowloadChannel, View.VISIBLE);
 		tvDowloadChannel.setFocusable(true);
 		tvDowloadChannel.setOnFocusChangeListener(new TextView.OnFocusChangeListener(){
@@ -5168,7 +5181,7 @@ public class MediaController {
 		});
 		
 	}
-
+*/
 
 
 //	public String getStoragepath() {
@@ -5228,7 +5241,7 @@ public class MediaController {
 
 
 
-	protected void dowloadChannelInfo(TextView tvDowloadChannel) {
+	/*protected void dowloadChannelInfo(TextView tvDowloadChannel) {
 //		LayoutInflater systemService = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //		LinearLayout layoutOfPopup = (LinearLayout) systemService.inflate(R.layout.settings, null);
 //		TextView tvDowloadChannel = (TextView) layoutOfPopup.findViewById(R.id.tvDowloadChannel);
@@ -5243,7 +5256,7 @@ public class MediaController {
 		DowloadChannelData dowloadChannelData = new DowloadChannelData(serverUrl, channelId, serverTimeInfo, token);
 		dowloadChannelData.dowloadChannelInfo(vp9OfflineDirPath);
 		setTextColor(tvDowloadChannel, textColor, backgroundColor);
-	}
+	}*/
 	
 	public int getBackgroundColor(TextView textView) {
 		Drawable drawable = textView.getBackground();
@@ -6835,7 +6848,7 @@ public class MediaController {
 						/*waiting*/
 						/**/
 						Log.d(TAG, "mUpdateTimeTask-6");
-						
+						setVisibility(loadingLayout, View.VISIBLE);
 						if(is3D){
 							setVisibility(loadingLayout2, View.VISIBLE);
 						}
@@ -6845,7 +6858,7 @@ public class MediaController {
 							if(count != 20){
 								Log.d(TAG, "mUpdateTimeTask-8");
 								if (state == 1) {
-									updateTimehandle.postDelayed(this, 800L);
+									updateTimehandle.postDelayed(this, 500L);
 								}
 								return;  
 							}else{
@@ -6864,7 +6877,6 @@ public class MediaController {
 							currErrorTime = startTimeError;
 							sendErrorMsgToChangeSource(lastErrorTime, currErrorTime);
 						}else{
-							setVisibility(loadingLayout, View.VISIBLE);
 							Log.d(TAG, "mUpdateTimeTask-12");
 							currErrorTime = System.currentTimeMillis();
 							sendErrorMsgToChangeSource(lastErrorTime, currErrorTime);
@@ -6960,7 +6972,7 @@ public class MediaController {
 					}
 					Log.d(TAG, "mUpdateTimeTask-19");
 					if (state == 1) {
-						updateTimehandle.postDelayed(this, 800L);
+						updateTimehandle.postDelayed(this, 500L);
 					}
 					Log.d(TAG, "mUpdateTimeTask-20");
 				} catch (Exception e) {
@@ -7343,7 +7355,7 @@ public class MediaController {
 			this.updateTimehandle.removeCallbacks(this.mUpdateTimeTask);
 		}
 		if (state == 1) {
-			updateTimehandle.postDelayed(mUpdateTimeTask, 800L);
+			updateTimehandle.postDelayed(mUpdateTimeTask, 500L);
 		}
 	}
 

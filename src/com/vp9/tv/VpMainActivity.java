@@ -137,7 +137,7 @@ public class VpMainActivity extends CordovaActivity implements Vp9ActivityInterf
 
 	private int videoType;
 
-	private CordovaWebView webView;
+	public CordovaWebView webView;
 	private RelativeLayout uiView2;
 	public boolean is3D;
 
@@ -212,7 +212,8 @@ public class VpMainActivity extends CordovaActivity implements Vp9ActivityInterf
 			if (type != null && !"".equals(type)) {
 
 				url = url + "?type=" + type + "&id=" + channelNum;
-
+				//url = "";
+				//url = "http://demo.vp9.tv/nhankv/?type=film";
 			}
 			// final String urlVideo = url;
 			// loadUrl(urlVideo);
@@ -1046,7 +1047,7 @@ public class VpMainActivity extends CordovaActivity implements Vp9ActivityInterf
 						int lengNumber = 3;
 						if (channelNum.length() > 0 && !channelNum.startsWith("-")) {
 							int charStart = Integer.parseInt(channelNum.substring(0, 1));
-							if (charStart > 5) {
+							if (charStart > 4) {
 								lengNumber = 4;
 							}
 						}

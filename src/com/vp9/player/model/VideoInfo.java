@@ -15,6 +15,8 @@ public class VideoInfo {
 	
 	private int intProgram;
 	
+	private String program_name;
+	
 	private String userVideoId;
 	
 	private int status;
@@ -117,7 +119,15 @@ public class VideoInfo {
 	public void setIntProgram(int intProgram) {
 		this.intProgram = intProgram;
 	}
-
+	
+	public String getProgramName(){
+		return program_name;
+	}
+	
+	public void setProgramName(String program_name){
+		this.program_name = program_name;
+	}
+	
 	public String getRuntime() {
 		return runtime;
 	}

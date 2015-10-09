@@ -78,8 +78,11 @@ public class MenuItemAdapter extends BaseAdapter {
 		
 		
 		if (item != null) {
-
-			final String text = item.getVideoName();
+			String textProgramName = "";
+			if((item.getProgramName() != null) && (!item.getProgramName().equals(""))){
+				textProgramName += " - " + item.getProgramName();
+			}
+			final String text = item.getVideoName() + textProgramName;
 			final String id = String.valueOf(position);
 			final int intPosition = position;
 

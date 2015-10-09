@@ -197,6 +197,12 @@ public class HandlerEventPlugin extends CordovaPlugin {
 						// if (json.has("view")) {
 						// view = json.getString("view");
 						// }
+						VpMainActivity vp = (VpMainActivity) cordova.getActivity();
+						
+						MediaController mc = (MediaController) vp.mController;
+						
+						mc.isClickSetting = true;
+						
 						Log.e(HandlerEventPlugin.class.getSimpleName(), "channelnumber: " + channelNumber.toString());
 
 						if (channelNumber != null && channelNumber.length() > 0) {

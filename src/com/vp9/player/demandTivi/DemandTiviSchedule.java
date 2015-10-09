@@ -186,6 +186,8 @@ public class DemandTiviSchedule {
 				
 				videoInfo.setIntProgram(Vp9ParamUtil.getValue(Vp9ParamUtil.getJsonString(jsonContent, "intProgram", "-1"), -1));
 				
+				videoInfo.setProgramName(Vp9ParamUtil.getJsonString(jsonContent, "program_name", ""));
+				
 				videoInfo.setUserVideoId(Vp9ParamUtil.getJsonString(jsonContent, "user_video_id", ""));
 											
 				videoInfo.setStatus(Vp9ParamUtil.getValue(Vp9ParamUtil.getJsonString(jsonContent, "status", "-1"), -1));
@@ -368,6 +370,8 @@ public class DemandTiviSchedule {
 		videoInfo.setGenre(Vp9ParamUtil.getJsonString(jsonContent, "genre", ""));
 		
 		videoInfo.setIntProgram(Vp9ParamUtil.getValue(Vp9ParamUtil.getJsonString(jsonContent, "intProgram", "-1"), -1));
+		
+		videoInfo.setProgramName(Vp9ParamUtil.getJsonString(jsonContent, "program_name", ""));
 		
 		videoInfo.setUserVideoId(Vp9ParamUtil.getJsonString(jsonContent, "user_video_id", ""));
 									
@@ -611,6 +615,8 @@ public class DemandTiviSchedule {
 				videoInfo.setGenre(Vp9ParamUtil.getJsonString(jsonContent, "genre", ""));
 				
 				videoInfo.setIntProgram(Vp9ParamUtil.getValue(Vp9ParamUtil.getJsonString(jsonContent, "intProgram", "-1"), -1));
+				
+				videoInfo.setProgramName(Vp9ParamUtil.getJsonString(jsonContent, "program_name", ""));
 				
 				videoInfo.setUserVideoId(Vp9ParamUtil.getJsonString(jsonContent, "user_video_id", ""));
 											
@@ -1395,6 +1401,8 @@ public class DemandTiviSchedule {
 				
 				videoInfo.setIntProgram(Vp9ParamUtil.getValue(jsonContent.getString("intProgram"), -1));
 				
+				videoInfo.setProgramName(Vp9ParamUtil.getJsonString(jsonContent, "program_name", ""));
+				
 				videoInfo.setUserVideoId(Vp9ParamUtil.getValue(jsonContent.getString("user_video_id"), ""));
 											
 				videoInfo.setStatus(Vp9ParamUtil.getValue(jsonContent.getString("status"), -1));
@@ -1649,6 +1657,8 @@ public class DemandTiviSchedule {
 			
 			videoInfo.setIntProgram(Vp9ParamUtil.getValue(Vp9ParamUtil.getJsonString(jsonContent, "intProgram", "-1"), -1));
 			
+			videoInfo.setProgramName(Vp9ParamUtil.getJsonString(jsonContent, "program_name", ""));
+			
 			videoInfo.setUserVideoId(Vp9ParamUtil.getJsonString(jsonContent, "user_video_id", ""));
 										
 			videoInfo.setStatus(Vp9ParamUtil.getValue(Vp9ParamUtil.getJsonString(jsonContent, "status", "-1"), -1));
@@ -1886,6 +1896,8 @@ public class DemandTiviSchedule {
 		videoInfo.setGenre(Vp9ParamUtil.getJsonString(jsonFilmRelated, "genre", ""));
 		
 		videoInfo.setIntProgram(Vp9ParamUtil.getValue(Vp9ParamUtil.getJsonString(jsonFilmRelated, "intProgram", "-1"), -1));
+		
+		videoInfo.setProgramName(Vp9ParamUtil.getJsonString(jsonFilmRelated, "program_name", ""));
 		
 		videoInfo.setStatus(Vp9ParamUtil.getValue(Vp9ParamUtil.getJsonString(jsonFilmRelated, "status", "-1"), -1));
 		

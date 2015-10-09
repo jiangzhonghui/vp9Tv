@@ -1042,7 +1042,9 @@ public class NativeVp9Player implements Vp9PlayerInterface {
 			return;
 		}
 		Log.d(TAG, "onCompletion");
-		mController.mVideoView.destroyDrawingCache();
+		if ((mController.mVideoView != null) && (!mController.mVideoView.equals(""))) {
+			mController.mVideoView.destroyDrawingCache();
+		}
 		mController.cancelTask();
 		mController.reset();
 		mController.mCurrentState = STATE_PLAYBACK_COMPLETED;
