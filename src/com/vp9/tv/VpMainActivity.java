@@ -115,7 +115,8 @@ public class VpMainActivity extends CordovaActivity implements Vp9ActivityInterf
 	private static long totalRxBefore;
 	private static long totalTxBefore;
 	private static long BeforeTime;
-
+	
+	public static int locationClickVideoMenu = 0;
 	// traffic
 
 	private double[] arrayTraffic = new double[5];

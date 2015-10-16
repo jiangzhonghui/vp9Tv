@@ -47,6 +47,8 @@ public class DemandTiviSchedule {
 	private MediaController mControl;
 	private String channelIcon;
 	
+	private JSONObject jsonVideoInfo;
+	
 	private String channelUrl;
 	
 	private int channelType;
@@ -149,7 +151,7 @@ public class DemandTiviSchedule {
 			if(content == null){
 				return;
 			}
-		JSONObject jsonVideoInfo = new JSONObject(content);
+		jsonVideoInfo = new JSONObject(content);
 //		Log.e(TAG, "jsonVideoInfo: " + jsonVideoInfo);
 		channelIcon = Vp9ParamUtil.getJsonString(jsonVideoInfo,"channelIcon", "");
 		
@@ -2208,5 +2210,7 @@ public class DemandTiviSchedule {
 		return videoInfoList;
 	}
 	
-	
+	public JSONObject getJson(){
+		return jsonVideoInfo;
+	}
 }

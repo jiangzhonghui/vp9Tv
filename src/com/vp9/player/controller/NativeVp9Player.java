@@ -13,12 +13,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnVideoSizeChangedListener;
 import android.media.TimedText;
 import android.net.Uri;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.Display;
@@ -570,6 +573,8 @@ public class NativeVp9Player implements Vp9PlayerInterface {
 
 	}
 	
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	@SuppressLint("NewApi")
 	private void initFunction() {
 		if (mController.clearParam) {
 			return;
@@ -688,7 +693,9 @@ public class NativeVp9Player implements Vp9PlayerInterface {
 			@Override
 			public void onClick(View v) {
 //				mController.playNextVideo();
+				Log.d("Native","PlayNext line = 696");
 				mController.runThreadPlayNextVideo();
+				
 			}
 		});
 		
@@ -1052,7 +1059,9 @@ public class NativeVp9Player implements Vp9PlayerInterface {
 
 		case 0:
 //			mController.playNextVideo();
+			Log.d("Native","PlayNext onCompletion Case =0");
 			mController.runThreadPlayNextVideo();
+			
 			break;
 
 		case 2:

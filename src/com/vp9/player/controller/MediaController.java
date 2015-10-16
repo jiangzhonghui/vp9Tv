@@ -34,6 +34,7 @@ import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Handler;
+import android.provider.MediaStore.Audio.Media;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -134,7 +135,8 @@ public class MediaController {
 	// public Vp9Player(Activity activity){
 	// this.activity = activity;
 	// }
-
+	VpMainActivity vp = new VpMainActivity();
+	
 	public static final String TAG = "MediaController";
 
 	public int video_view_id;
@@ -521,7 +523,7 @@ public class MediaController {
 	public String vp9Logo;
 
 	private String resolution;
-
+	
 	public int topStretch;
 
 	public int bottomStretch;
@@ -554,7 +556,7 @@ public class MediaController {
 	
 	public boolean isUseHeader;
 	public String cookie;
-
+	
 	private int channelType;
 
 	private String usbPath = "/mnt/usb_storage/USB_DISK0/udisk0/";
@@ -689,8 +691,6 @@ public class MediaController {
 		
 		notifyTextView2 = (TextView) activity.findViewById(notify_id2);
 		
-		
-
 		// setTextForTextView();
 		setTextForTextView(tvTo, Utilities.milliSecondsToTimer(0), 0);
 		setTextForTextView(tvFrom, Utilities.milliSecondsToTimer(0), 0);
@@ -792,11 +792,11 @@ public class MediaController {
 	// }
 
 	public boolean startNaviteVideo(final JSONObject jsonVideoInfo) {
-		
 		reset();
 		if (clearParam) {
 			return false;
 		}
+		
 		clearParam = false;
 		boolean isSuccess = false;
 //		this.resolution = null;
@@ -1540,8 +1540,14 @@ public class MediaController {
 		if (clearParam) {
 			return;
 		}
+		int currentIndex = demandTiviSchedule.getCurrentIndex();
+		Log.d(TAG, "playPreVideo-currentIndex: " + currentIndex);
+		if(currentIndex == -1){
+			currentIndex = demandTiviSchedule.getSizeVideoInfos();
+			Log.d(TAG, "playPreVideo-SizeVideoInfos: " + currentIndex);
+		}
 		if (demandTiviSchedule != null) {
-			Log.d(TAG, "play Next Video");
+			Log.d(TAG, "play Next Video =>" + videoType);
 			cancelUpdateTimehandle();
 			String msg = Vp9Contant.MSG_PLAY_NEXT_VIDEO;
 			errorMsg = Vp9Contant.MSG_PLAY_NEXT_VIDEO;
@@ -1567,8 +1573,7 @@ public class MediaController {
 			}
 
 			else if (videoType == 0) {
-				int currentIndex = demandTiviSchedule.getCurrentIndex();
-				VideoResult videoResult = demandTiviSchedule.getVideoInfoByIndex(currentIndex + 1);
+				VideoResult videoResult = demandTiviSchedule.getVideoInfoByIndex(currentIndex);
 				if (videoResult != null && videoResult.getVideoInfo() != null) {
 					isLive = 0;
 //					setVisibility(loadingLayout, View.VISIBLE);
@@ -1608,8 +1613,13 @@ public class MediaController {
 				}
 				return;
 			} else if (videoType == 4) {
-				int currentIndex = demandTiviSchedule.getCurrentIndex();
-				VideoResult videoResult = demandTiviSchedule.getVideoInfoByIndex(currentIndex + 1);
+//				int currentIndex = demandTiviSchedule.getCurrentIndex();
+				VideoResult videoResult = demandTiviSchedule.getVideoInfoByIndex(vp.locationClickVideoMenu + 1);
+				VideoInfo videoInfo = videoResult.getVideoInfo();
+				
+				Log.d("VIDEORESULT", " MOVIEID " + videoInfo.getIndex() +  "Index " + vp.locationClickVideoMenu);
+				vp.locationClickVideoMenu += 1;
+				//new offline
 				if (videoResult != null && videoResult.getVideoInfo() != null) {
 					isLive = 0;
 					sendMsgToGetOffTVVideoInfo(videoResult);
@@ -1627,7 +1637,6 @@ public class MediaController {
 //							setVisibility(loadingLayout2, View.VISIBLE);
 //						}
 //					} else {
-//						Log.d(TAG, "loading 18: " + false);
 ////						if(isLoading){
 ////							isLoading = false;
 ////							setVisibility(loadingLayout, View.GONE);
@@ -1637,26 +1646,20 @@ public class MediaController {
 //							setVisibility(loadingLayout2, View.GONE);
 //						}
 //					}
-//					if (vp9Player != null) {
-//						vp9Player.release();
-//					}
-//					mVideoView.destroyDrawingCache();
-//					mVideoView.refreshDrawableState();
+////					if (vp9Player != null) {
+////						vp9Player.release();
+////					}
+////					mVideoView.destroyDrawingCache();
+////					mVideoView.refreshDrawableState();
 //					isLive = 0;
 //					cancelTask();
 //					reset();
 //					this.videoIndex = videoResult.getVideoInfo().getIndex();
 //					this.playingVideo = videoResult.getVideoInfo();
-//					vp9Player.playVideo(videoResult.getVideoInfo().getUrl(), false);
+////					vp9Player.playVideo(videoResult.getVideoInfo().getUrl(), false);
+//					playVideo(videoResult.getVideoInfo().getVideoResolutionGroups(), videoResult.getVideoInfo().getUrl(), false);
 //				}
-				else {
-					updateTimehandle.postDelayed(mUpdateTimeTask, 500L);
-				}
-//				menuItemAdapter.serverTimeInfo = null;
-				popupVideoWindow.dismiss();
-				if(is3D){
-					popupVideoWindow2.dismiss();
-				}
+//				popupVideoWindow.dismiss();
 				return;
 			}
 //			setVisibility(loadingLayout, View.VISIBLE);
@@ -1692,7 +1695,7 @@ public class MediaController {
 				Vp9ActivityInterface vp9Activity = (Vp9ActivityInterface) activity;
 				vp9Activity.closeEPG();
 			}
-			int currentIndex = demandTiviSchedule.getCurrentIndex();
+			currentIndex = demandTiviSchedule.getCurrentIndex();
 			if (currentIndex + 1 < demandTiviSchedule.getSizeVideoInfos()) {
 				VideoResult videoResult = demandTiviSchedule.getVideoInfoByIndex(currentIndex + 1);
 				if(videoResult.getVideoInfo() != null){
@@ -1746,7 +1749,7 @@ public class MediaController {
 				return;
 			}
 			else if (videoType == 0) {
-				VideoResult videoResult = demandTiviSchedule.getVideoInfoByIndex(currentIndex - 1);
+				VideoResult videoResult = demandTiviSchedule.getVideoInfoByIndex(currentIndex);
 				if (videoResult != null && videoResult.getVideoInfo() != null) {
 					isLive = 0;
 					if (!isDisplayChannelImage && intShowControl != 2) {
@@ -1777,40 +1780,54 @@ public class MediaController {
 				return;
 			} else if (videoType == 4) {
 //				int currentIndex = demandTiviSchedule.getCurrentIndex();
-				VideoResult videoResult = demandTiviSchedule.getVideoInfoByIndex(currentIndex - 1);
-				if (videoResult != null && videoResult.getVideoInfo() != null) {
-					isLive = 0;
-					if (!isDisplayChannelImage && intShowControl != 2) {
-						setVisibility(loadingLayout, View.VISIBLE);
-						if(is3D){
-							setVisibility(loadingLayout2, View.VISIBLE);
-						}
-					} else {
-						setVisibility(loadingLayout, View.GONE);
-						if(is3D){
-							setVisibility(loadingLayout2, View.GONE);
-						}
+				if(vp.locationClickVideoMenu > 0){
+					VideoResult videoResult = demandTiviSchedule.getVideoInfoByIndex(vp.locationClickVideoMenu - 1);
+					VideoInfo videoInfo = videoResult.getVideoInfo();
+					
+					vp.locationClickVideoMenu += 1;
+					//new offline
+					if (videoResult != null && videoResult.getVideoInfo() != null) {
+						isLive = 0;
+						sendMsgToGetOffTVVideoInfo(videoResult);
 					}
-					if (vp9Player != null) {
-						vp9Player.release();
-					}
-					mVideoView.destroyDrawingCache();
-					mVideoView.refreshDrawableState();
-					isLive = 0;
-					cancelTask();
-					reset();
-					this.videoIndex = videoResult.getVideoInfo().getIndex();
-					this.playingVideo = videoResult.getVideoInfo();
-					vp9Player.playVideo(videoResult.getVideoInfo().getUrl(), false);
-				} else {
-					updateTimehandle.postDelayed(mUpdateTimeTask, 500L);
+	//				if (videoResult != null && videoResult.getVideoInfo() != null) {
+	//					isLive = 0;
+	////					setVisibility(loadingLayout, View.VISIBLE);
+	//					if (!isDisplayChannelImage && intShowControl != 2) {
+	////						if(!isLoading){
+	////							isLoading = true;
+	////							setVisibility(loadingLayout, View.VISIBLE);
+	////						}
+	//						setVisibility(loadingLayout, View.VISIBLE);
+	//						if(is3D){
+	//							setVisibility(loadingLayout2, View.VISIBLE);
+	//						}
+	//					} else {
+	////						if(isLoading){
+	////							isLoading = false;
+	////							setVisibility(loadingLayout, View.GONE);
+	////						}
+	//						setVisibility(loadingLayout, View.GONE);
+	//						if(is3D){
+	//							setVisibility(loadingLayout2, View.GONE);
+	//						}
+	//					}
+	////					if (vp9Player != null) {
+	////						vp9Player.release();
+	////					}
+	////					mVideoView.destroyDrawingCache();
+	////					mVideoView.refreshDrawableState();
+	//					isLive = 0;
+	//					cancelTask();
+	//					reset();
+	//					this.videoIndex = videoResult.getVideoInfo().getIndex();
+	//					this.playingVideo = videoResult.getVideoInfo();
+	////					vp9Player.playVideo(videoResult.getVideoInfo().getUrl(), false);
+	//					playVideo(videoResult.getVideoInfo().getVideoResolutionGroups(), videoResult.getVideoInfo().getUrl(), false);
+	//				}
+	//				popupVideoWindow.dismiss();
+					return;
 				}
-//				menuItemAdapter.serverTimeInfo = null;
-				popupVideoWindow.dismiss();
-				if(is3D){
-					popupVideoWindow2.dismiss();
-				}
-				return;
 			}
 //			setVisibility(loadingLayout, View.VISIBLE);
 			if (!isDisplayChannelImage && intShowControl != 2) {
@@ -2348,7 +2365,6 @@ public class MediaController {
 			
 			for (int i = 0; i < len; i++) {
 				VideoResult videoResult = this.demandTiviSchedule.getVideoInfoByIndex(i);
-				
 				if (videoResult != null) {
 					VideoInfo videoInfo = videoResult.getVideoInfo();
 					if (videoInfo != null && videoInfo.getVideoName() != null) {
@@ -2395,10 +2411,11 @@ public class MediaController {
 			if (activity != null) {
 				
 				popupVideoWindow = new PopupWindow();
-				popupVideoWindow.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-				
+				popupVideoWindow.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.BLACK));
+				popupVideoWindow.getBackground().setAlpha(150);
 				Vp9LeftListView listViewVideos = new Vp9LeftListView(activity);
 				listViewVideos.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+				listViewVideos.setPadding(20, 0, 0, 0);
 				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
 				listViewVideos.setLayoutParams(params);
 				params.rightMargin = 0;
@@ -2564,11 +2581,11 @@ public class MediaController {
 	}
 
 	public class ItemVideoMenuClickListener implements OnItemClickListener {
-
+		
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
 			Log.d(TAG, "ItemVideoMenuClickListener - position: " + position);
-			
+			vp.locationClickVideoMenu = position;
 			OperUtil.displayToast("Click vào item của lịch chiếu kênh", activity, 1);
 			
 //			menuItemAdapter.serverTimeInfo = null;
@@ -2675,7 +2692,7 @@ public class MediaController {
 		if (clearParam) {
 			return;
 		}
-
+		
 		if (demandTiviSchedule != null) {
 //			cancelUpdateTimehandle();
 			String msg = Vp9Contant.MSG_PLAY_SELECT_VIDEO;
@@ -2817,6 +2834,7 @@ public class MediaController {
 		boolean isSuccess = false;
 		if (videoResult != null && videoResult.getVideoInfo() != null) {
 			VideoInfo videoInfo = videoResult.getVideoInfo();
+			Log.d("ViDeoInfo ", " MovideId = " + videoInfo.getMovieID() + " VideoName = " + videoInfo.getVideoName());
 			try {
 				JSONObject jsonEvent = new JSONObject();
 				jsonEvent.put("action", "getOffTvVideoInfo");
@@ -2960,6 +2978,7 @@ public class MediaController {
 					popupVideoWindow2.dismiss();
 				}
 			}
+			Log.d("Media Play "," Next Video = KEYCODE_MEDIA_NEXT");
 			runThreadPlayNextVideo();
 //			playNextVideo();
 			isSucess = true;
@@ -4335,7 +4354,14 @@ public class MediaController {
 
 	public synchronized void playVideo(ArrayList<VideoResolutionGroup> videoResolutionGroups,
 			String videoUrl, boolean loop) {
-		
+		if(vp.locationClickVideoMenu == 0){
+			Log.d("BUTTON PRE ", "HIDE");
+			btnPrev.setEnabled(false); 
+			btnPrev.setBackgroundResource(vp9_btn_prev_hide_id);
+		} else {
+			setEnabled(btnPrev, true);
+			setBackgroundResource(btnPrev, vp9_btn_prev_id);
+		}
 		final ArrayList<VideoResolutionGroup> newVideoResolutionGroups = videoResolutionGroups;
 		
 		final String newVideoUrl = videoUrl;
@@ -4385,6 +4411,7 @@ public class MediaController {
 
 	protected synchronized void threadPlayVideo(ArrayList<VideoResolutionGroup> videoResolutionGroups,
 			String videoUrl, boolean loop) {
+		
 		int type = 0;
 		String newVideoUrl = videoUrl;
 		int resolutionIndex = 0;

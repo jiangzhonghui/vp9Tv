@@ -41,6 +41,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.content.res.AssetManager;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.net.TrafficStats;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -52,10 +53,16 @@ import android.os.StatFs;
 import android.provider.Settings.Secure;
 import android.util.Log;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup.MarginLayoutParams;
+import android.view.WindowManager;
 import android.view.ViewGroup.LayoutParams;
+import android.view.animation.LayoutAnimationController;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.*;
 import android.widget.Toast;
 
 import com.vp9.laucher.main.util.MyPreference;
@@ -245,13 +252,19 @@ public class HandlerEventPlugin extends CordovaPlugin {
 							} else {
 
 								textViewChannelNum = (FrameLayout) cordova.getActivity().getLayoutInflater().inflate(R.layout.customtextview, null);
+								textViewChannelNum.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.BLACK));
+								textViewChannelNum.getBackground().setAlpha(150);
+								
 								cordova.getActivity().runOnUiThread(new Runnable() {
 									public void run() {
 										for (int i = 0; i < textview.length; i++) {
 											textview[i] = (MagicTextView) textViewChannelNum.findViewById(ids[i]);
 											textview[i].setText(data[i]);
+											textview[i].setPadding(20, 0, 0, 0);
 										}
-										LayoutParams params = new LayoutParams(500, 700);
+										FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(500, WindowManager.LayoutParams.WRAP_CONTENT);
+										params.gravity = Gravity.TOP;
+										params.topMargin = 80;
 										cordova.getActivity().addContentView(textViewChannelNum, params);
 									}
 								});
@@ -268,6 +281,7 @@ public class HandlerEventPlugin extends CordovaPlugin {
 
 						@Override
 						public void run() {
+							Log.d("Invisible Channel Number ", "action = " + action);
 							// Vp9Application vp9Application = (Vp9Application)
 							// HandlerEventPlugin.this.cordova.getActivity().getApplication();
 							// textViewChannelNum =
@@ -298,12 +312,13 @@ public class HandlerEventPlugin extends CordovaPlugin {
 							// if (textViewChannelNum != null) {
 							// // textViewChannelNum.setText("");
 							// textViewChannelNum.setVisibility(View.INVISIBLE);
-							//
+							// 
 							// callbackContext.success("success");
 							// }
 
 							if (textViewChannelNum != null) {
 								textViewChannelNum.setVisibility(View.INVISIBLE);
+								Log.d("Close ", "EPG");
 								for (int i = 0; i < textview.length; i++) {
 									textview[i].setText("");
 									data[i] = "";
