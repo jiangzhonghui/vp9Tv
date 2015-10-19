@@ -1295,6 +1295,10 @@ public class MediaController {
 			}
 			return;
 		}
+		if (vp.locationClickVideoMenu == 0){
+			setBackgroundResource(btnPrev, vp9_btn_prev_hide_id);
+			setEnabled(btnPrev, false);
+		}
 		try {
 			
 			String videoUrl = Vp9ParamUtil.getJsonString(jsonVideoInfo, "videoUrl", "");
@@ -1784,7 +1788,7 @@ public class MediaController {
 					VideoResult videoResult = demandTiviSchedule.getVideoInfoByIndex(vp.locationClickVideoMenu - 1);
 					VideoInfo videoInfo = videoResult.getVideoInfo();
 					
-					vp.locationClickVideoMenu += 1;
+					vp.locationClickVideoMenu -= 1;
 					//new offline
 					if (videoResult != null && videoResult.getVideoInfo() != null) {
 						isLive = 0;
@@ -4354,14 +4358,7 @@ public class MediaController {
 
 	public synchronized void playVideo(ArrayList<VideoResolutionGroup> videoResolutionGroups,
 			String videoUrl, boolean loop) {
-		if(vp.locationClickVideoMenu == 0){
-			Log.d("BUTTON PRE ", "HIDE");
-			btnPrev.setEnabled(false); 
-			btnPrev.setBackgroundResource(vp9_btn_prev_hide_id);
-		} else {
-			setEnabled(btnPrev, true);
-			setBackgroundResource(btnPrev, vp9_btn_prev_id);
-		}
+		
 		final ArrayList<VideoResolutionGroup> newVideoResolutionGroups = videoResolutionGroups;
 		
 		final String newVideoUrl = videoUrl;

@@ -670,7 +670,9 @@ public class H265Vp9Player implements Vp9PlayerInterface{
             @Override
             public void onClick(View v) {        
 //            	mController.playNextVideo();
+            	Log.d("h265", "PlayNext = onclick");
             	mController.runThreadPlayNextVideo();
+            	
             }
         });
 		
@@ -1045,7 +1047,9 @@ public class H265Vp9Player implements Vp9PlayerInterface{
 
 		case 0:
 //			mController.playNextVideo();
+			Log.d("H265Vp9Player","PlayNext onCompletion Case =0");
 			mController.runThreadPlayNextVideo();
+			
 			break;
 
 		case 2:
