@@ -214,7 +214,7 @@ public class VpMainActivity extends CordovaActivity implements Vp9ActivityInterf
 
 				url = url + "?type=" + type + "&id=" + channelNum;
 				//url = "";
-				//url = "http://demo.vp9.tv/nhankv/?type=film";
+				//url = "http://demo.vp9.tv/nhankv/?type=tv";
 			}
 			// final String urlVideo = url;
 			// loadUrl(urlVideo);

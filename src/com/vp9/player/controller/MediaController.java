@@ -827,6 +827,7 @@ public class MediaController {
 			this.curVideoResult = null;
 			// analysic video Info
 			try {
+				vp.locationClickVideoMenu = Vp9ParamUtil.getJsonInt(jsonVideoInfo, "locationClickEPG", 0);
 				this.videoType = Vp9ParamUtil.getJsonInt(jsonVideoInfo, "videoType", -1);
 				this.intProxy = Vp9ParamUtil.getJsonInt(jsonVideoInfo, "proxy", 0);
 				this.intFullScreen = Vp9ParamUtil.getJsonInt(jsonVideoInfo, "fullscreen", 0);
