@@ -828,6 +828,7 @@ public class MediaController {
 			// analysic video Info
 			try {
 				vp.locationClickVideoMenu = Vp9ParamUtil.getJsonInt(jsonVideoInfo, "locationClickEPG", 0);
+				Log.d("LOCATION VIDEO IS PLAY " , " INDEX = " + vp.locationClickVideoMenu);
 				this.videoType = Vp9ParamUtil.getJsonInt(jsonVideoInfo, "videoType", -1);
 				this.intProxy = Vp9ParamUtil.getJsonInt(jsonVideoInfo, "proxy", 0);
 				this.intFullScreen = Vp9ParamUtil.getJsonInt(jsonVideoInfo, "fullscreen", 0);
@@ -2886,7 +2887,7 @@ public class MediaController {
 	public boolean handleKeyEvent(View v, int keyCode, KeyEvent event) {
 		boolean isSucess = false;
 		int vp9KeyCode = Vp9KeyEvent.getKeyCode(keyCode);
-		Log.d(TAG, "Vp9KeyCode = " + vp9KeyCode);
+		Log.d(TAG, "Vp9KeyCode := " + vp9KeyCode);
 		switch (vp9KeyCode) {
 		
 		case Vp9KeyEvent.KEYCODE_DPAD_UP:

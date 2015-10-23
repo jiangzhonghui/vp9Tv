@@ -212,9 +212,10 @@ public class VpMainActivity extends CordovaActivity implements Vp9ActivityInterf
 		try {
 			if (type != null && !"".equals(type)) {
 
-				url = url + "?type=" + type + "&id=" + channelNum;
+				//url = url + "?type=" + type + "&id=" + channelNum;
 				//url = "";
-				//url = "http://demo.vp9.tv/nhankv/?type=tv";
+				url = "http://demo.vp9.tv/nhankv/?type=" + type;
+				
 			}
 			// final String urlVideo = url;
 			// loadUrl(urlVideo);

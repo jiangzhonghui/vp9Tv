@@ -693,7 +693,7 @@ public class NativeVp9Player implements Vp9PlayerInterface {
 			@Override
 			public void onClick(View v) {
 //				mController.playNextVideo();
-				Log.d("Native","PlayNext line = 696");
+				Log.d("NativeVp9Player","PlayNext line = 696");
 				mController.runThreadPlayNextVideo();
 				
 			}
