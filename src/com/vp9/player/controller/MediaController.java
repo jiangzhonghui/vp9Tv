@@ -828,7 +828,6 @@ public class MediaController {
 			// analysic video Info
 			try {
 				vp.locationClickVideoMenu = Vp9ParamUtil.getJsonInt(jsonVideoInfo, "locationClickEPG", 0);
-				Log.d("LOCATION VIDEO IS PLAY " , " INDEX = " + vp.locationClickVideoMenu);
 				this.videoType = Vp9ParamUtil.getJsonInt(jsonVideoInfo, "videoType", -1);
 				this.intProxy = Vp9ParamUtil.getJsonInt(jsonVideoInfo, "proxy", 0);
 				this.intFullScreen = Vp9ParamUtil.getJsonInt(jsonVideoInfo, "fullscreen", 0);
@@ -1547,11 +1546,7 @@ public class MediaController {
 			return;
 		}
 		int currentIndex = demandTiviSchedule.getCurrentIndex();
-		Log.d(TAG, "playPreVideo-currentIndex: " + currentIndex);
-		if(currentIndex == -1){
-			currentIndex = demandTiviSchedule.getSizeVideoInfos();
-			Log.d(TAG, "playPreVideo-SizeVideoInfos: " + currentIndex);
-		}
+		
 		if (demandTiviSchedule != null) {
 			Log.d(TAG, "play Next Video =>" + videoType);
 			cancelUpdateTimehandle();
@@ -1579,7 +1574,7 @@ public class MediaController {
 			}
 
 			else if (videoType == 0) {
-				VideoResult videoResult = demandTiviSchedule.getVideoInfoByIndex(currentIndex);
+				VideoResult videoResult = demandTiviSchedule.getVideoInfoByIndex(currentIndex + 1);
 				if (videoResult != null && videoResult.getVideoInfo() != null) {
 					isLive = 0;
 //					setVisibility(loadingLayout, View.VISIBLE);
@@ -1623,7 +1618,7 @@ public class MediaController {
 				VideoResult videoResult = demandTiviSchedule.getVideoInfoByIndex(vp.locationClickVideoMenu + 1);
 				VideoInfo videoInfo = videoResult.getVideoInfo();
 				
-				Log.d("VIDEORESULT", " MOVIEID " + videoInfo.getIndex() +  "Index " + vp.locationClickVideoMenu);
+				Log.d(TAG, "Location Click Video in EPG " + vp.locationClickVideoMenu);
 				vp.locationClickVideoMenu += 1;
 				//new offline
 				if (videoResult != null && videoResult.getVideoInfo() != null) {
@@ -1730,11 +1725,7 @@ public class MediaController {
 		}
 
 		int currentIndex = demandTiviSchedule.getCurrentIndex();
-		Log.d(TAG, "playPreVideo-currentIndex: " + currentIndex);
-		if(currentIndex == -1){
-			currentIndex = demandTiviSchedule.getSizeVideoInfos();
-			Log.d(TAG, "playPreVideo-SizeVideoInfos: " + currentIndex);
-		}
+
 //		if (demandTiviSchedule != null && demandTiviSchedule.getCurrentIndex() > 0) {
 		if (demandTiviSchedule != null && currentIndex > 0) {
 			Log.d(TAG, "play Pre Video");
@@ -1755,7 +1746,7 @@ public class MediaController {
 				return;
 			}
 			else if (videoType == 0) {
-				VideoResult videoResult = demandTiviSchedule.getVideoInfoByIndex(currentIndex);
+				VideoResult videoResult = demandTiviSchedule.getVideoInfoByIndex(currentIndex - 1);
 				if (videoResult != null && videoResult.getVideoInfo() != null) {
 					isLive = 0;
 					if (!isDisplayChannelImage && intShowControl != 2) {
