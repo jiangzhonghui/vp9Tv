@@ -1421,7 +1421,8 @@ public class NativeVp9Player implements Vp9PlayerInterface {
 				mController.resetPrepareAsync(15000);
 				mController.setMessage(Vp9Contant.MSG_PREPARE_PLAY_VIDEO);
 				mController.isRefreshNotify = true;
-				mController.mCurrentState = STATE_PREPARING;
+				//Fix error Thiet lap thanh cong cua chuong trinh chieu lai
+				//mController.mCurrentState = STATE_PREPARING;
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -827,7 +827,7 @@ public class MediaController {
 			this.curVideoResult = null;
 			// analysic video Info
 			try {
-				vp.locationClickVideoMenu = Vp9ParamUtil.getJsonInt(jsonVideoInfo, "locationClickEPG", 0);
+				vp.locationClickVideoMenu = Vp9ParamUtil.getJsonInt(jsonVideoInfo, "locationClickEPG", 0);			
 				this.videoType = Vp9ParamUtil.getJsonInt(jsonVideoInfo, "videoType", -1);
 				this.intProxy = Vp9ParamUtil.getJsonInt(jsonVideoInfo, "proxy", 0);
 				this.intFullScreen = Vp9ParamUtil.getJsonInt(jsonVideoInfo, "fullscreen", 0);
@@ -1299,6 +1299,9 @@ public class MediaController {
 		if (vp.locationClickVideoMenu == 0){
 			setBackgroundResource(btnPrev, vp9_btn_prev_hide_id);
 			setEnabled(btnPrev, false);
+		} else {
+			setBackgroundResource(btnPrev, vp9_btn_prev_id);
+			setEnabled(btnPrev, true);
 		}
 		try {
 			
@@ -1546,7 +1549,11 @@ public class MediaController {
 			return;
 		}
 		int currentIndex = demandTiviSchedule.getCurrentIndex();
-		
+		Log.d(TAG, "playPreVideo-currentIndex: " + currentIndex);
+		if(currentIndex == -1){
+			currentIndex = demandTiviSchedule.getSizeVideoInfos();
+			Log.d(TAG, "playPreVideo-SizeVideoInfos: " + currentIndex);
+		}
 		if (demandTiviSchedule != null) {
 			Log.d(TAG, "play Next Video =>" + videoType);
 			cancelUpdateTimehandle();
@@ -1616,9 +1623,6 @@ public class MediaController {
 			} else if (videoType == 4) {
 //				int currentIndex = demandTiviSchedule.getCurrentIndex();
 				VideoResult videoResult = demandTiviSchedule.getVideoInfoByIndex(vp.locationClickVideoMenu + 1);
-				VideoInfo videoInfo = videoResult.getVideoInfo();
-				
-				Log.d(TAG, "Location Click Video in EPG " + vp.locationClickVideoMenu);
 				vp.locationClickVideoMenu += 1;
 				//new offline
 				if (videoResult != null && videoResult.getVideoInfo() != null) {
@@ -1725,7 +1729,11 @@ public class MediaController {
 		}
 
 		int currentIndex = demandTiviSchedule.getCurrentIndex();
-
+		Log.d(TAG, "playPreVideo-currentIndex: " + currentIndex);
+		if(currentIndex == -1){
+			currentIndex = demandTiviSchedule.getSizeVideoInfos();
+			Log.d(TAG, "playPreVideo-SizeVideoInfos: " + currentIndex);
+		}
 //		if (demandTiviSchedule != null && demandTiviSchedule.getCurrentIndex() > 0) {
 		if (demandTiviSchedule != null && currentIndex > 0) {
 			Log.d(TAG, "play Pre Video");
